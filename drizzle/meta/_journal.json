@@ -1,0 +1,13 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1789209146506,
+      "tag": "0000_harsh_the_hunter",
+      "breakpoints": true
+    }
+  ]
+}
