@@ -9,6 +9,45 @@ const demoProjects:Project[]=[
   {id:-2,title:"Islamabad Heights",city:"Islamabad",category:"Apartments",price:9500000,downPaymentPercent:25,installmentMonths:48,description:"Modern apartment living designed for families, rental income and long-term value.",imageUrl:"/project-emaar.jpg",videoUrl:"",brochureUrl:"/lmar-brochure.html",locationUrl:"https://maps.google.com/?q=Islamabad",constructionProgress:82,status:"active",tag:"High demand"},
   {id:-3,title:"LMAR Business Square",city:"Peshawar",category:"Commercial",price:12000000,downPaymentPercent:30,installmentMonths:36,description:"A commercial opportunity for offices, retail and growing businesses in a connected location.",imageUrl:"/lmar-hero.jpg",videoUrl:"",brochureUrl:"/lmar-brochure.html",locationUrl:"https://maps.google.com/?q=Peshawar",constructionProgress:54,status:"active",tag:"Investment"}
 ];
+const dhaPrices = [
+  { size: "5 Marla", status: "Possession", price: "PKR 135–165 Lacs" },
+  { size: "8 Marla", status: "Non-Possession", price: "PKR 145–160 Lacs" },
+  { size: "10 Marla", status: "Possession", price: "PKR 250–270 Lacs" },
+  { size: "10 Marla", status: "Non-Possession", price: "PKR 90–190 Lacs" },
+  { size: "1 Kanal", status: "Possession", price: "PKR 280–450 Lacs" },
+  { size: "1 Kanal", status: "Non-Possession", price: "PKR 145–280 Lacs" },
+  { size: "2 Kanal", status: "Possession", price: "PKR 450–800 Lacs" },
+];
+const rmtZones = [
+  { zone: "Zone 1", rows: [
+    ["5 Marla", "Possession", "PKR 80–100 Lacs"],
+    ["5 Marla", "Non-Possession", "PKR 50–75 Lacs"],
+    ["10 Marla", "Possession", "PKR 160–175 Lacs"],
+    ["10 Marla", "Non-Possession", "PKR 110–130 Lacs"],
+    ["1 Kanal", "Possession", "PKR 210–250 Lacs"],
+    ["1 Kanal", "Non-Possession", "PKR 140–175 Lacs"],
+  ]},
+  { zone: "Zone 2", rows: [
+    ["5 Marla", "", "PKR 20–35 Lacs"],
+    ["10 Marla", "", "PKR 35–45 Lacs"],
+    ["1 Kanal", "", "PKR 55–65 Lacs"],
+  ]},
+  { zone: "Zone 3", rows: [
+    ["5 Marla", "Possession", "PKR 145–165 Lacs"],
+    ["10 Marla", "Possession", "PKR 185–230 Lacs"],
+    ["1 Kanal", "Possession", "PKR 250–350 Lacs"],
+  ]},
+  { zone: "Zone 4", rows: [
+    ["5 Marla", "", "PKR 120–140 Lacs"],
+    ["10 Marla", "", "PKR 175–210 Lacs"],
+    ["1 Kanal", "", "PKR 230–280 Lacs"],
+  ]},
+  { zone: "Zone 5", rows: [
+    ["5 Marla", "", "PKR 15–19 Lacs"],
+    ["10 Marla", "", "PKR 20–25 Lacs"],
+    ["1 Kanal", "", "PKR 33–40 Lacs"],
+  ]},
+];
 const money=(n:number)=>new Intl.NumberFormat("en-PK",{maximumFractionDigits:0}).format(n);
 
 export default function Home(){
@@ -28,13 +67,30 @@ export default function Home(){
   async function submit(endpoint:string,form:HTMLFormElement,onDone:()=>void){setBusy(true);const body=Object.fromEntries(new FormData(form).entries());try{const r=await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});if(!r.ok)throw new Error();form.reset();onDone()}finally{setBusy(false)}}
 
   return <main className="min-h-screen bg-[#f7f7f4] text-[#13271f]">
-    <header className="absolute inset-x-0 top-0 z-20 border-b border-white/15 text-white"><div className="mx-auto flex h-20 max-w-[1440px] items-center justify-between px-5 lg:px-12"><a href="#" aria-label="LMAR Marketing home"><img src="/lmar-logo-white.png" alt="LMAR Marketing" className="h-16 w-auto"/></a><nav className="hidden items-center gap-7 text-sm font-medium lg:flex"><a href="#projects">Properties</a><a href="#compare">Compare</a><a href="#updates">Updates</a><a href="#calculator">Calculator</a><a href="#contact">Contact</a></nav><a href="#visit" className="hidden rounded-full bg-[#d7b465] px-5 py-3 text-sm font-semibold text-[#153326] sm:inline-flex">Book a site visit</a><button className="rounded-full border border-white/30 p-2 lg:hidden" aria-label="Open menu"><Menu size={21}/></button></div></header>
+    <header className="absolute inset-x-0 top-0 z-20 border-b border-white/15 text-white"><div className="mx-auto flex h-20 max-w-[1440px] items-center justify-between px-5 lg:px-12"><a href="#" aria-label="LMAR Marketing home"><img src="/lmar-logo-white.png" alt="LMAR Marketing" className="h-16 w-auto"/></a><nav className="hidden items-center gap-7 text-sm font-medium lg:flex"><a href="#projects">Properties</a><a href="#prices">Market Prices</a><a href="#compare">Compare</a><a href="#updates">Updates</a><a href="#calculator">Calculator</a><a href="#contact">Contact</a></nav><a href="#visit" className="hidden rounded-full bg-[#d7b465] px-5 py-3 text-sm font-semibold text-[#153326] sm:inline-flex">Book a site visit</a><button className="rounded-full border border-white/30 p-2 lg:hidden" aria-label="Open menu"><Menu size={21}/></button></div></header>
     <section className="hero-grid relative overflow-hidden bg-[#102b21] text-white"><div className="hero-orb"/><div className="relative mx-auto grid min-h-[760px] max-w-[1440px] items-center gap-14 px-5 pb-16 pt-32 lg:grid-cols-[1.05fr_.95fr] lg:px-12 lg:pt-24">
       <div className="max-w-2xl"><p className="mb-6 flex items-center gap-2 text-xs font-semibold uppercase tracking-[.22em] text-[#e2c271]"><ShieldCheck size={16}/> Real estate guidance you can verify</p><h1 className="font-display text-[clamp(3.2rem,7vw,6.6rem)] leading-[.92] tracking-[-.055em]">Property with<br/><span className="text-[#ddbd72]">perspective.</span></h1><p className="mt-7 max-w-xl text-lg leading-8 text-white/70">Explore projects across Peshawar and Islamabad, review prices and payment plans, compare options and speak directly with LMAR.</p><div className="mt-9 flex flex-wrap gap-3"><a href="#projects" className="gold-button">Explore properties <ArrowRight size={18}/></a><a href="https://wa.me/923171117341?text=Hello%20LMAR%20Marketing%2C%20I%20need%20property%20guidance." target="_blank" className="outline-button"><MessageCircle size={18}/> WhatsApp LMAR</a></div><div className="mt-12 grid max-w-xl grid-cols-3 border-t border-white/15 pt-6"><div><strong className="block text-2xl">Projects</strong><span className="text-xs text-white/50">With payment plans</span></div><div><strong className="block text-2xl">2 cities</strong><span className="text-xs text-white/50">Peshawar & Islamabad</span></div><div><strong className="block text-2xl">1:1</strong><span className="text-xs text-white/50">Investment guidance</span></div></div></div>
       <div id="calculator" className="relative mx-auto w-full max-w-xl rounded-[2rem] bg-white p-6 text-[#173127] shadow-2xl shadow-black/30 sm:p-8"><div className="mb-7 flex items-start justify-between"><div><span className="mb-3 grid h-11 w-11 place-items-center rounded-full bg-[#edf3ed] text-[#1d5b43]"><Calculator size={21}/></span><h2 className="font-display text-3xl">Investment calculator</h2><p className="mt-1 text-sm text-[#66736d]">Estimate a payment plan in seconds.</p></div><span className="rounded-full bg-[#f5ead2] px-3 py-1 text-xs font-semibold text-[#725719]">PKR</span></div><div className="space-y-5"><label className="block"><span>Property price</span><div className="input-wrap"><small>PKR</small><input value={price} onChange={e=>setPrice(Number(e.target.value))} type="number"/></div></label><div className="grid grid-cols-2 gap-4"><label><span>Down payment</span><div className="input-wrap"><input value={downPayment} onChange={e=>setDownPayment(Number(e.target.value))} min="0" max="100" type="number"/><small>%</small></div></label><label><span>Installment period</span><div className="input-wrap"><input value={years} onChange={e=>setYears(Number(e.target.value))} min="1" type="number"/><small>years</small></div></label></div><div className="grid grid-cols-2 gap-3 rounded-2xl bg-[#173c2e] p-5 text-white"><div><small className="text-white/55">Down payment</small><strong className="mt-1 block text-lg">{money(result.upfront)}</strong></div><div className="border-l border-white/15 pl-4"><small className="text-white/55">Monthly installment</small><strong className="mt-1 block text-lg text-[#e6c777]">{money(result.monthly)}</strong></div></div><p className="text-xs leading-5 text-[#7d8782]">Planning estimate only. Official pricing may vary by project.</p></div></div>
     </div></section>
 
     <section id="projects" className="mx-auto max-w-[1440px] px-5 py-20 lg:px-12"><div className="section-heading"><div><p className="eyebrow">PROJECTS & PROPERTIES</p><h2>Explore opportunities that fit your plan.</h2></div><span className="text-sm text-[#65736c]">Prices shown are demo data for this first version.</span></div><div className="mt-10 grid gap-6 lg:grid-cols-3">{projects.slice(0,6).map((p,i)=><article key={p.id} className="project-card"><div className="project-photo" style={{backgroundImage:`linear-gradient(180deg,transparent,rgba(10,32,24,.72)),url('${p.imageUrl}')`}}><div className="flex justify-between"><span className="pill">{p.tag||"New project"}</span><button onClick={()=>toggleCompare(p.id)} className={`compare-button ${selected.includes(p.id)?"active":""}`}><Check size={15}/> Compare</button></div><div className="absolute bottom-5 left-5 text-white"><p className="flex items-center gap-1 text-xs text-white/70"><MapPin size={13}/>{p.city}</p><h3 className="font-display mt-1 text-3xl">{p.title}</h3></div></div><div className="p-5"><p className="text-sm text-[#68756f]">{p.category}</p><strong className="mt-2 block text-xl">From PKR {money(p.price)}</strong><p className="mt-3 min-h-12 text-sm leading-6 text-[#68756f]">{p.description}</p><div className="mt-5 grid grid-cols-2 gap-2 text-xs"><span className="mini-stat">{p.downPaymentPercent}% down payment</span><span className="mini-stat">{p.installmentMonths} months</span></div><div className="mt-5 flex flex-wrap gap-2"><a href={p.brochureUrl||"/lmar-brochure.html"} download className="card-action"><Download size={15}/> Brochure</a>{p.locationUrl?<a href={p.locationUrl} target="_blank" className="card-action"><MapPin size={15}/> Location</a>:null}{p.videoUrl?<a href={p.videoUrl} target="_blank" className="card-action"><Play size={15}/> Video</a>:<span className="card-action opacity-45"><Play size={15}/> Video soon</span>}</div><a href={`https://wa.me/923171117341?text=${encodeURIComponent(`Hello LMAR Marketing, I am interested in ${p.title}.`)}`} target="_blank" className="mt-4 flex items-center justify-center gap-2 rounded-xl bg-[#173c2e] px-4 py-3 text-sm font-semibold text-white"><MessageCircle size={17}/> Ask on WhatsApp</a></div></article>)}</div></section>
+
+    <section id="prices" className="bg-[#102b21] py-20 text-white">
+      <div className="mx-auto max-w-[1440px] px-5 lg:px-12">
+        <div className="section-heading"><div><p className="text-xs font-bold tracking-[.2em] text-[#e1c06f]">PESHAWAR MARKET PRICE GUIDE</p><h2 className="text-white">Current plot price ranges.</h2></div><span className="max-w-sm text-sm leading-6 text-white/60">Approximate market ranges supplied by LMAR. Contact our team for the latest confirmed price.</span></div>
+        <div className="mt-10 grid gap-6 xl:grid-cols-2">
+          <article className="overflow-hidden rounded-[1.75rem] bg-white text-[#173127]">
+            <div className="border-b bg-[#edf3ed] p-6"><p className="eyebrow">ARMY PROJECT</p><h3 className="font-display mt-2 text-3xl">DHA Peshawar</h3><p className="mt-2 text-sm leading-6 text-[#66736d]">Sectors: A, B, C, Prism, E, F, G, G1, G2, H, I, J and N</p></div>
+            <div className="overflow-x-auto"><table className="w-full text-left text-sm"><thead className="bg-[#f7f7f4] text-[#68756f]"><tr><th className="px-6 py-4">Plot Size</th><th className="px-6 py-4">Status</th><th className="px-6 py-4">Price Range</th></tr></thead><tbody>{dhaPrices.map((row,index)=><tr key={index} className="border-t"><td className="px-6 py-4 font-semibold">{row.size}</td><td className="px-6 py-4">{row.status}</td><td className="px-6 py-4 font-semibold text-[#8a6927]">{row.price}</td></tr>)}</tbody></table></div>
+          </article>
+          <article className="overflow-hidden rounded-[1.75rem] bg-white text-[#173127]">
+            <div className="border-b bg-[#edf3ed] p-6"><p className="eyebrow">PDA PROJECT</p><h3 className="font-display mt-2 text-3xl">Regi Model Town, Peshawar</h3><p className="mt-2 text-sm leading-6 text-[#66736d]">Zones 1, 2, 3, 4 and 5 • Sizes: 5 Marla, 10 Marla and 1 Kanal</p></div>
+            <div className="max-h-[620px] overflow-auto">{rmtZones.map(zone=><div key={zone.zone}><h4 className="sticky top-0 bg-[#173c2e] px-6 py-3 text-sm font-bold text-white">{zone.zone}</h4><table className="w-full text-left text-sm"><tbody>{zone.rows.map((row,index)=><tr key={index} className="border-t"><td className="w-1/3 px-6 py-4 font-semibold">{row[0]}</td><td className="w-1/3 px-6 py-4 text-[#66736d]">{row[1]||"—"}</td><td className="px-6 py-4 font-semibold text-[#8a6927]">{row[2]}</td></tr>)}</tbody></table></div>)}</div>
+          </article>
+        </div>
+        <p className="mt-6 rounded-2xl border border-white/15 bg-white/5 p-5 text-sm leading-6 text-white/65">Prices are approximate and may change according to sector, zone, exact location, possession status and market conditions. Contact LMAR Marketing for current availability and a confirmed quotation.</p>
+      </div>
+    </section>
 
     <section id="compare" className="bg-white py-20"><div className="mx-auto max-w-[1240px] px-5 lg:px-12"><div className="section-heading"><div><p className="eyebrow">PROJECT COMPARISON</p><h2>Compare the numbers side by side.</h2></div><BarChart3 className="text-[#b08a3c]" size={34}/></div>{compared.length===2?<div className="mt-10 overflow-hidden rounded-[1.75rem] border"><div className="comparison-grid heading"><span>Investment details</span>{compared.map(p=><strong key={p.id}>{p.title}</strong>)}</div>{[["City","city"],["Property type","category"],["Starting price","price"],["Down payment","downPaymentPercent"],["Installment period","installmentMonths"],["Construction progress","constructionProgress"]].map(([label,key])=><div key={key} className="comparison-grid"><span>{label}</span>{compared.map(p=><strong key={p.id}>{key==="price"?`PKR ${money(p.price)}`:key==="downPaymentPercent"?`${p.downPaymentPercent}%`:key==="installmentMonths"?`${p.installmentMonths} months`:key==="constructionProgress"?`${p.constructionProgress}%`:String(p[key as keyof Project])}</strong>)}</div>)}</div>:<p className="mt-8 rounded-2xl bg-[#f3f6f3] p-8 text-center text-[#65736c]">Select any two project cards to compare.</p>}</div></section>
 
