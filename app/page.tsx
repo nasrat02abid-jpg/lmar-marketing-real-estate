@@ -48,6 +48,28 @@ const rmtZones = [
     ["1 Kanal", "", "PKR 33–40 Lacs"],
   ]},
 ];
+const faisalTownPhase1Prices = [
+  { size: "5 Marla", price: "PKR 120–160 Lacs" },
+  { size: "8 Marla", price: "PKR 170–270 Lacs" },
+  { size: "10 Marla", price: "PKR 230–350 Lacs" },
+  { size: "1 Kanal", price: "PKR 370–500 Lacs" },
+];
+const faisalTownPhase2Prices = [
+  { size: "5 Marla", actual: "PKR 34.95 Lacs", discounted: "PKR 27.90 Lacs" },
+  { size: "8 Marla", actual: "PKR 46.65 Lacs", discounted: "PKR 37.30 Lacs" },
+  { size: "10 Marla", actual: "PKR 60.65 Lacs", discounted: "PKR 48.50 Lacs" },
+  { size: "14 Marla", actual: "PKR 75.85 Lacs", discounted: "PKR 60.65 Lacs" },
+  { size: "1 Kanal", actual: "PKR 100.55 Lacs", discounted: "PKR 81.20 Lacs" },
+  { size: "2 Kanal", actual: "PKR 182.95 Lacs", discounted: "PKR 154.30 Lacs" },
+];
+const faisalHillsPrices = [
+  { size: "5 Marla", price: "PKR 45–100 Lacs" },
+  { size: "8 Marla", price: "PKR 70–140 Lacs" },
+  { size: "10 Marla", price: "PKR 80–150 Lacs" },
+  { size: "14 Marla", price: "PKR 100–170 Lacs" },
+  { size: "1 Kanal", price: "PKR 140–240 Lacs" },
+  { size: "2 Kanal", price: "PKR 270–350 Lacs" },
+];
 const money=(n:number)=>new Intl.NumberFormat("en-PK",{maximumFractionDigits:0}).format(n);
 
 export default function Home(){
@@ -77,7 +99,7 @@ export default function Home(){
 
     <section id="prices" className="bg-[#102b21] py-20 text-white">
       <div className="mx-auto max-w-[1440px] px-5 lg:px-12">
-        <div className="section-heading"><div><p className="text-xs font-bold tracking-[.2em] text-[#e1c06f]">PESHAWAR MARKET PRICE GUIDE</p><h2 className="text-white">Current plot price ranges.</h2></div><span className="max-w-sm text-sm leading-6 text-white/60">Approximate market ranges supplied by LMAR. Contact our team for the latest confirmed price.</span></div>
+        <div className="section-heading"><div><p className="text-xs font-bold tracking-[.2em] text-[#e1c06f]">PESHAWAR & ISLAMABAD MARKET PRICE GUIDE</p><h2 className="text-white">Current plot price ranges.</h2></div><span className="max-w-sm text-sm leading-6 text-white/60">Approximate market ranges supplied by LMAR. Contact our team for the latest confirmed price.</span></div>
         <div className="mt-10 grid gap-6 xl:grid-cols-2">
           <article className="overflow-hidden rounded-[1.75rem] bg-white text-[#173127]">
             <div className="border-b bg-[#edf3ed] p-6"><p className="eyebrow">ARMY PROJECT</p><h3 className="font-display mt-2 text-3xl">DHA Peshawar</h3><p className="mt-2 text-sm leading-6 text-[#66736d]">Sectors: A, B, C, Prism, E, F, G, G1, G2, H, I, J and N</p><a href="https://www.google.com/maps/search/?api=1&query=DHA+Peshawar" target="_blank" rel="noreferrer" className="mt-4 inline-flex items-center gap-2 rounded-full bg-[#173c2e] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#245b46]"><MapPin size={16}/> View on Google Maps</a></div>
@@ -86,6 +108,18 @@ export default function Home(){
           <article className="overflow-hidden rounded-[1.75rem] bg-white text-[#173127]">
             <div className="border-b bg-[#edf3ed] p-6"><p className="eyebrow">PDA PROJECT</p><h3 className="font-display mt-2 text-3xl">Regi Model Town, Peshawar</h3><p className="mt-2 text-sm leading-6 text-[#66736d]">Zones 1, 2, 3, 4 and 5 • Sizes: 5 Marla, 10 Marla and 1 Kanal</p><a href="https://www.google.com/maps/search/?api=1&query=Regi+Model+Town+Peshawar" target="_blank" rel="noreferrer" className="mt-4 inline-flex items-center gap-2 rounded-full bg-[#173c2e] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#245b46]"><MapPin size={16}/> View on Google Maps</a></div>
             <div className="max-h-[620px] overflow-auto">{rmtZones.map(zone=><div key={zone.zone}><h4 className="sticky top-0 bg-[#173c2e] px-6 py-3 text-sm font-bold text-white">{zone.zone}</h4><table className="w-full text-left text-sm"><tbody>{zone.rows.map((row,index)=><tr key={index} className="border-t"><td className="w-1/3 px-6 py-4 font-semibold">{row[0]}</td><td className="w-1/3 px-6 py-4 text-[#66736d]">{row[1]||"—"}</td><td className="px-6 py-4 font-semibold text-[#8a6927]">{row[2]}</td></tr>)}</tbody></table></div>)}</div>
+          </article>
+          <article className="overflow-hidden rounded-[1.75rem] bg-white text-[#173127]">
+            <div className="border-b bg-[#edf3ed] p-6"><p className="eyebrow">ISLAMABAD PROJECT</p><h3 className="font-display mt-2 text-3xl">Faisal Town Phase 1</h3><p className="mt-2 text-sm leading-6 text-[#66736d]">Blocks A, B and C • Sizes: 5 Marla, 8 Marla, 10 Marla and 1 Kanal</p><a href="https://www.google.com/maps/search/?api=1&query=Faisal+Town+Phase+1+Islamabad" target="_blank" rel="noreferrer" className="mt-4 inline-flex items-center gap-2 rounded-full bg-[#173c2e] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#245b46]"><MapPin size={16}/> View on Google Maps</a></div>
+            <div className="overflow-x-auto"><table className="w-full text-left text-sm"><thead className="bg-[#f7f7f4] text-[#68756f]"><tr><th className="px-6 py-4">Plot Size</th><th className="px-6 py-4">Price Range</th></tr></thead><tbody>{faisalTownPhase1Prices.map((row,index)=><tr key={index} className="border-t"><td className="px-6 py-4 font-semibold">{row.size}</td><td className="px-6 py-4 font-semibold text-[#8a6927]">{row.price}</td></tr>)}</tbody></table></div>
+          </article>
+          <article className="overflow-hidden rounded-[1.75rem] bg-white text-[#173127]">
+            <div className="border-b bg-[#edf3ed] p-6"><p className="eyebrow">20% DISCOUNT OFFER</p><h3 className="font-display mt-2 text-3xl">Faisal Town Phase 2</h3><p className="mt-2 text-sm leading-6 text-[#66736d]">Sizes: 5 Marla, 8 Marla, 10 Marla, 14 Marla, 1 Kanal and 2 Kanal</p><a href="https://www.google.com/maps/search/?api=1&query=Faisal+Town+Phase+2+Islamabad" target="_blank" rel="noreferrer" className="mt-4 inline-flex items-center gap-2 rounded-full bg-[#173c2e] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#245b46]"><MapPin size={16}/> View on Google Maps</a></div>
+            <div className="overflow-x-auto"><table className="w-full text-left text-sm"><thead className="bg-[#f7f7f4] text-[#68756f]"><tr><th className="px-6 py-4">Plot Size</th><th className="px-6 py-4">Actual Price</th><th className="px-6 py-4">20% Discount Price</th></tr></thead><tbody>{faisalTownPhase2Prices.map((row,index)=><tr key={index} className="border-t"><td className="px-6 py-4 font-semibold">{row.size}</td><td className="px-6 py-4 text-[#66736d] line-through">{row.actual}</td><td className="px-6 py-4 font-semibold text-[#8a6927]">{row.discounted}</td></tr>)}</tbody></table></div>
+          </article>
+          <article className="overflow-hidden rounded-[1.75rem] bg-white text-[#173127] xl:col-span-2">
+            <div className="border-b bg-[#edf3ed] p-6"><p className="eyebrow">ISLAMABAD PROJECT</p><h3 className="font-display mt-2 text-3xl">Faisal Hills</h3><p className="mt-2 text-sm leading-6 text-[#66736d]">Blocks: Executive, A, B, C, Prime and D • Sizes: 5 Marla, 8 Marla, 10 Marla, 14 Marla, 1 Kanal and 2 Kanal</p><p className="mt-2 text-sm font-semibold text-[#8a6927]">Prime and D blocks are available on an installment plan with a 20% discount.</p><a href="https://www.google.com/maps/search/?api=1&query=Faisal+Hills+Islamabad" target="_blank" rel="noreferrer" className="mt-4 inline-flex items-center gap-2 rounded-full bg-[#173c2e] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#245b46]"><MapPin size={16}/> View on Google Maps</a></div>
+            <div className="overflow-x-auto"><table className="w-full text-left text-sm"><thead className="bg-[#f7f7f4] text-[#68756f]"><tr><th className="px-6 py-4">Plot Size</th><th className="px-6 py-4">Price Range</th></tr></thead><tbody>{faisalHillsPrices.map((row,index)=><tr key={index} className="border-t"><td className="px-6 py-4 font-semibold">{row.size}</td><td className="px-6 py-4 font-semibold text-[#8a6927]">{row.price}</td></tr>)}</tbody></table></div>
           </article>
         </div>
         <p className="mt-6 rounded-2xl border border-white/15 bg-white/5 p-5 text-sm leading-6 text-white/65">Prices are approximate and may change according to sector, zone, exact location, possession status and market conditions. Contact LMAR Marketing for current availability and a confirmed quotation.</p>
