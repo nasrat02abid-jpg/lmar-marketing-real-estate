@@ -11,12 +11,13 @@ const demoProjects:Project[]=[
 ];
 const dhaPrices = [
   { size: "5 Marla", status: "Possession", price: "PKR 135–165 Lacs" },
+  { size: "5 Marla", status: "Non-Possession", price: "PKR 70–110 Lacs" },
   { size: "8 Marla", status: "Non-Possession", price: "PKR 145–160 Lacs" },
   { size: "10 Marla", status: "Possession", price: "PKR 250–270 Lacs" },
   { size: "10 Marla", status: "Non-Possession", price: "PKR 90–190 Lacs" },
   { size: "1 Kanal", status: "Possession", price: "PKR 280–450 Lacs" },
   { size: "1 Kanal", status: "Non-Possession", price: "PKR 145–280 Lacs" },
-  { size: "2 Kanal", status: "Possession", price: "PKR 450–800 Lacs" },
+  { size: "2 Kanal", status: "Possession", price: "PKR 650–750 Lacs" },
 ];
 const rmtZones = [
   { zone: "Zone 1", rows: [
