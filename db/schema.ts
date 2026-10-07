@@ -27,6 +27,7 @@ export const leads = sqliteTable("leads", {
   message: text("message").notNull().default(""),
   source: text("source").notNull().default("website"),
   status: text("status").notNull().default("new"),
+  adminNotes: text("admin_notes").notNull().default(""),
   createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
 });
 
@@ -38,5 +39,6 @@ export const siteVisits = sqliteTable("site_visits", {
   preferredDate: text("preferred_date").notNull(),
   interest: text("interest").notNull().default(""),
   status: text("status").notNull().default("pending"),
+  adminNotes: text("admin_notes").notNull().default(""),
   createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
 });
