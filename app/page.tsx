@@ -76,7 +76,7 @@ export default function Home(){
   const [price,setPrice]=useState(5000000),[downPayment,setDownPayment]=useState(20),[years,setYears]=useState(3);
   const [projects,setProjects]=useState<Project[]>(demoProjects),[selected,setSelected]=useState<number[]>([-1,-2]);
   const [visitSubmitted,setVisitSubmitted]=useState(false),[inquirySubmitted,setInquirySubmitted]=useState(false),[busy,setBusy]=useState(false);
-  useEffect(()=>{fetch("/api/projects").then(r=>r.json()).then(d=>{if(d.projects?.length)setProjects([...d.projects,...demoProjects])}).catch(()=>undefined)},[]);
+  useEffect(()=>{fetch("/api/projects").then(r=>r.json() as Promise<{projects?:Project[]}>).then(d=>{const published=(d.projects||[]).filter(project=>project.status==="active");if(published.length)setProjects([...published,...demoProjects])}).catch(()=>undefined)},[]);
   useEffect(()=>{
     const context=(document as Document & {modelContext?:{registerTool:(tool:object,options?:{signal?:AbortSignal})=>void|Promise<void>}}).modelContext;
     if(!context?.registerTool)return; const lifecycle=new AbortController();
