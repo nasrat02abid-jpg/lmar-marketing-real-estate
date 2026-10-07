@@ -6,16 +6,12 @@ export async function GET() { try { return Response.json({ projects: await getDb
 export async function POST(request: Request) {
   if (!await requireAdminApi()) return Response.json({ error: "Unauthorized" }, { status: 401 });
   const body = await request.json() as Record<string, string | number>;
-  const title = String(body.title ?? "").trim(); const city = String(body.city ?? "").trim();
-  const status = String(body.status || "active"); const progress = Number(body.constructionProgress || 0);
-  if (!title || !city) return Response.json({ error: "Title and city are required" }, { status: 400 });
-  if (!["active", "draft"].includes(status)) return Response.json({ error: "Invalid project status" }, { status: 400 });
-  if (!Number.isFinite(progress) || progress < 0 || progress > 100) return Response.json({ error: "Progress must be between 0 and 100" }, { status: 400 });
+  if (!String(body.title ?? "").trim() || !String(body.city ?? "").trim()) return Response.json({ error: "Title and city are required" }, { status: 400 });
   const [project] = await getDb().insert(projects).values({
-    title, city, category: String(body.category || "Residential"), price: Math.max(0, Number(body.price || 0)),
-    downPaymentPercent: Math.min(100, Math.max(0, Number(body.downPaymentPercent || 0))), installmentMonths: Math.max(0, Number(body.installmentMonths || 0)), description: String(body.description || ""),
+    title: String(body.title), city: String(body.city), category: String(body.category || "Residential"), price: Number(body.price || 0),
+    downPaymentPercent: Number(body.downPaymentPercent || 20), installmentMonths: Number(body.installmentMonths || 36), description: String(body.description || ""),
     imageUrl: String(body.imageUrl || "/lmar-hero.jpg"), videoUrl: String(body.videoUrl || ""), brochureUrl: String(body.brochureUrl || "/lmar-brochure.html"),
-    locationUrl: String(body.locationUrl || ""), constructionProgress: progress, status
+    locationUrl: String(body.locationUrl || ""), constructionProgress: Number(body.constructionProgress || 0), status: String(body.status || "active")
   }).returning();
   return Response.json({ project }, { status: 201 });
 }
