@@ -2,6 +2,14 @@ import { eq } from "drizzle-orm";
 import { getDb } from "../../../../db";
 import { projects } from "../../../../db/schema";
 import { requireAdminApi } from "../../../admin-auth";
+export async function GET(_: Request, context: { params: Promise<{ id: string }> }) {
+  const { id } = await context.params;
+  const numericId = Number(id);
+  if (!Number.isInteger(numericId) || numericId < 1) return Response.json({ error: "Project not found" }, { status: 404 });
+  const [project] = await getDb().select().from(projects).where(eq(projects.id, numericId)).limit(1);
+  if (!project || project.status !== "active") return Response.json({ error: "Project not found" }, { status: 404 });
+  return Response.json({ project });
+}
 export async function PATCH(request: Request, context: { params: Promise<{ id: string }> }) {
   if (!await requireAdminApi()) return Response.json({ error: "Unauthorized" }, { status: 401 });
   const { id } = await context.params; const body = await request.json() as Record<string, string | number>;
