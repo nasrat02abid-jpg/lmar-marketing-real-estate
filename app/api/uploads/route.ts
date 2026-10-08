@@ -24,6 +24,9 @@ export async function POST(request: Request) {
   if (!(file instanceof File)) {
     return Response.json({ error: "Select a file to upload." }, { status: 400 });
   }
+  if (!file.size || file.name.length > 200) {
+    return Response.json({ error: "The selected file is empty or its name is too long." }, { status: 400 });
+  }
   if (!allowedTypes.has(file.type)) {
     return Response.json({ error: "Only images, PDF brochures, MP4 and WebM videos are allowed." }, { status: 415 });
   }
