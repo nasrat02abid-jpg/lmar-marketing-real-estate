@@ -1,5 +1,6 @@
 import { eq } from "drizzle-orm";
 import { ArrowLeft, Building2, CalendarDays, CheckCircle2, Download, MapPin, MessageCircle, Play, ShieldCheck, TrendingUp } from "lucide-react";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getDb } from "../../../db";
 import { projects } from "../../../db/schema";
@@ -11,6 +12,27 @@ async function getProject(id: number): Promise<Project | null> {
   if (id < 0) return demoProjects.find(project => project.id === id) || null;
   const [project] = await getDb().select().from(projects).where(eq(projects.id, id)).limit(1);
   return project && project.status === "active" ? project : null;
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params;
+  const numericId = Number(id);
+  if (!Number.isInteger(numericId)) return { title: "Project Not Found", robots: { index: false, follow: false } };
+  const project = await getProject(numericId);
+  if (!project) return { title: "Project Not Found", robots: { index: false, follow: false } };
+  const description = `${project.description} Starting from PKR ${money(project.price)}. Contact LMAR Marketing for current availability.`;
+  return {
+    title: project.title,
+    description,
+    alternates: { canonical: `/projects/${project.id}` },
+    openGraph: {
+      title: `${project.title} | LMAR Marketing`,
+      description,
+      url: `/projects/${project.id}`,
+      images: [{ url: project.imageUrl || "/lmar-hero.jpg", alt: project.title }],
+    },
+    twitter: { card: "summary_large_image", title: project.title, description, images: [project.imageUrl || "/lmar-hero.jpg"] },
+  };
 }
 
 export default async function ProjectDetails({ params }: { params: Promise<{ id: string }> }) {
