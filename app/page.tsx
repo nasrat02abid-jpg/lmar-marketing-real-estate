@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { ArrowRight, BarChart3, Building2, CalendarDays, Calculator, Check, CheckCircle2, Download, Eye, Handshake, Images, MapPin, Menu, MessageCircle, Play, ShieldCheck, TrendingUp, X } from "lucide-react";
-import { demoProjects, money, type Project } from "../lib/project-data";
+import { money, type Project } from "../lib/project-data";
 const dhaPrices = [
   { size: "5 Marla", status: "Possession", price: "PKR 135–165 Lacs" },
   { size: "8 Marla", status: "Non-Possession", price: "PKR 145–160 Lacs" },
@@ -74,10 +74,10 @@ const faqs=[
 
 export default function Home(){
   const [price,setPrice]=useState(5000000),[downPayment,setDownPayment]=useState(20),[years,setYears]=useState(3);
-  const [projects,setProjects]=useState<Project[]>(demoProjects),[selected,setSelected]=useState<number[]>([-1,-2]);
+  const [projects,setProjects]=useState<Project[]>([]),[selected,setSelected]=useState<number[]>([]);
   const [visitSubmitted,setVisitSubmitted]=useState(false),[inquirySubmitted,setInquirySubmitted]=useState(false),[busy,setBusy]=useState(false);
   const [galleryCity,setGalleryCity]=useState("All"),[galleryItem,setGalleryItem]=useState<Project|null>(null);
-  useEffect(()=>{fetch("/api/projects").then(r=>r.json()).then(d=>{if(d.projects?.length)setProjects([...d.projects,...demoProjects])}).catch(()=>undefined)},[]);
+  useEffect(()=>{fetch("/api/projects").then(r=>r.json()).then(d=>setProjects(Array.isArray(d.projects)?d.projects:[])).catch(()=>setProjects([]))},[]);
   useEffect(()=>{
     const context=(document as Document & {modelContext?:{registerTool:(tool:object,options?:{signal?:AbortSignal})=>void|Promise<void>}}).modelContext;
     if(!context?.registerTool)return; const lifecycle=new AbortController();

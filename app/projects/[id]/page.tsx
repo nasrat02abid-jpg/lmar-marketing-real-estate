@@ -4,12 +4,12 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getDb } from "../../../db";
 import { projects } from "../../../db/schema";
-import { demoProjects, money, type Project } from "../../../lib/project-data";
+import { money, type Project } from "../../../lib/project-data";
 
 export const dynamic = "force-dynamic";
 
 async function getProject(id: number): Promise<Project | null> {
-  if (id < 0) return demoProjects.find(project => project.id === id) || null;
+  if (id < 1) return null;
   const [project] = await getDb().select().from(projects).where(eq(projects.id, id)).limit(1);
   return project && project.status === "active" ? project : null;
 }
